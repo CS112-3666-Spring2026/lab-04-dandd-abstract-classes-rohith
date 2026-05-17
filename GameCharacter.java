@@ -185,4 +185,38 @@ public abstract class GameCharacter {
 
         return isPresent;
     }
+
+    //OTHER REQUIRED METHODS
+    @Override
+    public String toString() {
+        String weapons = "Equipped = {" + this.weapon1 + "}";
+        if (this.weapon2 != null) {
+            weapons += "+ {" + this.weapon2 + "}";
+        }
+
+        return String.format("Game Character: Name = %s, Class = %s, Alignment = %s, " +
+                "Gold = %d, XP = %d, Hit Points = %d, Armor Class = %d, %n\t%s",
+                this.name, this.classType, this.alignment, this.gold, this.expPoints, this.hitPoints,
+                this.armorClass, weapons);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null || !(other instanceof GameCharacter)) {
+            return false;
+        }
+        GameCharacter otherCharacter = (GameCharacter) other;
+        boolean secondWeaponsEqual = (this.weapon2 == null && otherCharacter.weapon2 == null) ||
+                this.weapon2.equals(otherCharacter.weapon2);
+
+        return this.name.equals(otherCharacter.name) && this.classType.equals(otherCharacter.name) &&
+                this.alignment.equals(otherCharacter.alignment) && this.gold == otherCharacter.gold &&
+                this.expPoints == otherCharacter.expPoints && this.hitPoints == otherCharacter.hitPoints &&
+                this.armorClass == otherCharacter.armorClass && this.weapon1.equals(otherCharacter.weapon1) &&
+                secondWeaponsEqual;
+    }
+
+    //ABSTRACT METHODS
+    public abstract void assist(GameCharacter other);
+    public abstract boolean attack(GameCharacter other);
 }
